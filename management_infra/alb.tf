@@ -42,7 +42,7 @@ module "jenkins-tg" {
   health_check_path     = "/"
   health_check_port     = "traffic-port"
   health_check_timeout  = "5"
-  health_check_matcher  = "200-299"
+  health_check_matcher  = "200-499"
   target_type           = "instance"
 }
 

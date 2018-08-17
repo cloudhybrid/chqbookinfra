@@ -77,5 +77,5 @@ output "jenkins_server_private_ip" {
 
 output "jenkins_url" {
   description = "Url of jenkins Server"
-  value = "jenkins.${module.management_alb.alb_dns_name}"
+  value = "${module.management_alb.alb_dns_name}"
 }
