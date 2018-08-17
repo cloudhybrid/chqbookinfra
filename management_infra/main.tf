@@ -241,6 +241,10 @@ module "jenkins_key_pair" {
     
 }
 
+data "template_file" "bootstrap_jenkins_master" {
+  template = "${file("../user_data/jenkins.tpl")}"
+}
+
 module "jenkins_instance" {
     source                      = "../modules/ec2"
     name                        = "${var.jenkins_server_name}"
@@ -250,7 +254,7 @@ module "jenkins_instance" {
     associate_public_ip_address = "false"
     key_name                    = "${var.jenkins_key_pair_name}"
     iam_instance_profile        = "jenkins_profile"
-    user_data                   = ""
+    user_data                   = "${data.template_file.bootstrap_jenkins_master.rendered}"
     ami_id                      = "${var.jenkins_ami_id}"
     root_volume_type            = "${var.root_volume_type}"
     root_volume_size            = "${var.root_volume_size}"

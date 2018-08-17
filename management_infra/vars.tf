@@ -156,7 +156,7 @@ variable "jenkins_server_name" {
 
 variable "jenkins_instance_type" {
   description = "Type of the jenkins Instance"
-  default     = "t2.micro"
+  default     = "t2.medium"
 }
 
 variable "jenkins_ami_id" {
