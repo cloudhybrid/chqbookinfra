@@ -68,5 +68,5 @@ module "management_alb_listener_rule_90" {
   listener_arn     = "${module.management_alb_listener.arn}"
   priority         = "90"
   target_group_arn = "${module.jenkins-tg.arn}"
-  host-header      = "${var.jenkins_header}"
+  host-header      = "jenkins.${module.management_alb.alb_dns_name}"
 }

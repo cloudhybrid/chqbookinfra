@@ -74,3 +74,8 @@ output "jenkins_server_private_ip" {
   description = "Ouput private IP of the created bastion's server"
   value = "${module.jenkins_instance.private_ip}"
 }
+
+output "jenkins_url" {
+  description = "Url of jenkins Server"
+  value = "jenkins.${module.management_alb.alb_dns_name}"
+}
