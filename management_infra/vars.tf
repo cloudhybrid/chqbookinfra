@@ -35,7 +35,7 @@ variable "region" {
 
 variable "profile" {
   description = "Aws Profiles for Infra"
-  default     = "management_vpc"
+  default     = "ntuc"
 }
 
 variable "pub_sub_a_name" {
@@ -98,6 +98,12 @@ variable "bastion_secuirty_group_name" {
   default     = "bastion_sg"
 }
 
+
+variable "alb_secuirty_group_name" {
+  description = "Name of the Management ALB Security Group"
+  default     = "mgmt_alb_sg"
+}
+
 variable "jenkins_secuirty_group_name" {
   description = "Name of the Jenkins Security Group"
   default     = "jenkins_sg"
@@ -133,10 +139,10 @@ variable "root_volume_size" {
   default     = "20"
 }
 
-variable "jenkins_key_path" {
-  description = "Key path for Jenkins Key"
-  default     = "~/.ssh/jenkins.pub"
-}
+# variable "jenkins_key_path" {
+#   description = "Key path for Jenkins Key"
+#   default     = "~/.ssh/jenkins.pub"
+# }
 
 variable "jenkins_key_pair_name" {
   description = "Name of the jenkins key"
@@ -156,4 +162,8 @@ variable "jenkins_instance_type" {
 variable "jenkins_ami_id" {
   description = "AMI ID for the Jenkins Server"
   default     = "ami-b70554c8"
+}
+variable "jenkins_header" {
+  description = "jenkins subdomain to be opened from public end"
+  default     = "jenkins.timesinternet.com"
 }

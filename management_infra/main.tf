@@ -112,6 +112,28 @@ module "bastion_secuirty_group" {
   ]
 }
 
+module "alb_secuirty_group" {
+  source              = "../modules/security_group"
+  vpc_id              = "${module.vpc.id}"
+  name                = "${var.alb_secuirty_group_name}"
+  ingress_with_cidr_blocks = [
+    {
+      from_port   = 80
+      to_port     = 80
+      protocol    = "tcp"
+      description = "HTTP"
+      cidr_blocks = "0.0.0.0/0"
+    },
+    {
+      from_port   = 443
+      to_port     = 443
+      protocol    = "tcp"
+      description = "HTTPS"
+      cidr_blocks = "0.0.0.0/0"
+    }
+  ]
+}
+
 module "bastion_instance" {
     source                      = "../modules/ec2"
     name                        = "${var.bastion_server_name}"
@@ -208,7 +230,8 @@ resource "aws_iam_instance_profile" "jenkins_profile" {
 module "jenkins_key_pair" {
     source          = "../modules/key_pair"
     name            = "${var.jenkins_key_pair_name}"
-    public_key_path = "${var.jenkins_key_path}"
+    public_key_path = "pubkeys/jenkins.pub"
+    
 }
 
 module "jenkins_instance" {
