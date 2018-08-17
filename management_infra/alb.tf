@@ -8,7 +8,7 @@ module "default-tg" {
   health_check_path     = "/"
   health_check_port     = "traffic-port"
   health_check_timeout  = "5"
-  health_check_matcher  = "200-299"
+  health_check_matcher  = "200-499"
   target_type           = "instance"
 }
 
@@ -29,18 +29,8 @@ module "management_alb_listener" {
   load_balancer_arn = "${module.management_alb.arn}"
   port              = "80"
   protocol          = "HTTP"
-  target_group_arn  = "${module.default-tg.arn}"
+  target_group_arn  = "${module.jenkins-tg.arn}"
 }
-
-# module "management_alb_listener_https" {
-#   source            = "../modules/aws/alb_listener_https"
-#   load_balancer_arn = "${module.management_alb.arn}"
-#   port              = "443"
-#   protocol          = "HTTPS"
-#   certificate_arn   = "arn:aws:acm:ap-southeast-1:206074362642:certificate/5a5f2312-4f61-4b90-8df3-ad0c87c7f41f"
-#   security_policy   = "ELBSecurityPolicy-2016-08"
-#   target_group_arn  = "${module.default-tg.arn}"
-# }
 
 module "jenkins-tg" {
   source                = "../modules/targetgroup"
@@ -48,7 +38,7 @@ module "jenkins-tg" {
   backend_port          = "8080"
   backend_protocol      = "HTTP"
   vpc_id                = "${module.vpc.id}"
-  health_check_interval = "10"
+  health_check_interval = "6"
   health_check_path     = "/"
   health_check_port     = "traffic-port"
   health_check_timeout  = "5"
@@ -60,7 +50,7 @@ module "jenkins-tg" {
 module "jenkins_tg_register" {
   source           = "../modules/targetgroup_attachment"
   target_group_arn = "${module.jenkins-tg.arn}"
-  instance_id      = "${module.jenkins_instance.id}"
+  instance_id      = "${module.jenkins_instance.id[0]}"
 }
 
 module "management_alb_listener_rule_90" {
@@ -68,5 +58,5 @@ module "management_alb_listener_rule_90" {
   listener_arn     = "${module.management_alb_listener.arn}"
   priority         = "90"
   target_group_arn = "${module.jenkins-tg.arn}"
-  host-header      = "jenkins.${module.management_alb.alb_dns_name}"
+  host-header      = "${module.management_alb.alb_dns_name}"
 }

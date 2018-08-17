@@ -35,7 +35,7 @@ variable "region" {
 
 variable "profile" {
   description = "Aws Profiles for Infra"
-  default     = "ntuc"
+  default     = "timesinternet"
 }
 
 variable "pub_sub_a_name" {
@@ -121,7 +121,7 @@ variable "bastion_instance_type" {
 
 variable "bastion_ami_id" {
   description = "AMI Id for the Bastion Server"
-  default     = "ami-759bc50a"
+  default     = "ami-b70554c8"
 }
 
 variable "number_of_instances" {

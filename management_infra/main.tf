@@ -94,7 +94,7 @@ module "priv_sn_b_association" {
 module "key_pair" {
     source          = "../modules/key_pair"
     name            = "${var.key_pair_name}"
-    public_key_path = "${var.public_key_path}"
+    public_key_path = "pubkeys/bastion.pub"
 }
 
 module "bastion_secuirty_group" {
@@ -165,6 +165,13 @@ resource "aws_security_group" "jenkins_secuirty_group" {
     to_port         = 22
     protocol        = "tcp"
     security_groups = ["${module.bastion_secuirty_group.id}"]
+  }
+
+    ingress {
+    from_port       = 8080
+    to_port         = 8080
+    protocol        = "tcp"
+    security_groups = ["${module.alb_secuirty_group.id}"]
   }
 
   egress {
