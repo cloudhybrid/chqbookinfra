@@ -228,6 +228,26 @@ variable "sub_asg_ami_id" {
   default     = ""
 }
 
+variable "pwa_asg_max" {
+  description = "Desired count for asg max"
+  default     = "1"
+}
+
+variable "pwa_asg_min" {
+  description = "Desired count for asg min"
+  default     = "1"
+}
+
+variable "pwa_asg_desired" {
+  description = "Desired count for asg desired"
+  default     = "1"
+}
+
+variable "pwa_asg_ami_id" {
+  description = "AMI ID of the ASG group"
+  default     = ""
+}
+
 variable "communication_instance_type" {
   description = "Instance type of Communication component"
   default     = "t2.medium"
