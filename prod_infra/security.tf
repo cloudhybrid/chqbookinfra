@@ -1,3 +1,28 @@
+####################
+#test sg
+resource "aws_security_group" "test_sg" {
+  name        = "allow_all"
+  description = "Allow all inbound traffic"
+  vpc_id      = "${module.vpc.id}"
+
+  ingress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    from_port       = 0
+    to_port         = 0
+    protocol        = "-1"
+    cidr_blocks     = ["0.0.0.0/0"]
+  }
+}
+
+####################
+
+
 module "bastion_security_group" {
   source              = "../modules/security_group"
   vpc_id              = "${module.vpc.id}"
@@ -62,7 +87,7 @@ resource "aws_security_group_rule" "kafka-allow-bastion" {
     from_port       = 22
     to_port         = 22
     protocol        = "tcp"
-    security_group_id = "${module.bastion_security_group.id}"
+    security_group_id = "${module.bastion_security_group.id[0]}"
 }
 
 module "external_alb_sg" {
@@ -117,7 +142,7 @@ resource "aws_security_group" "communication_security_group" {
     from_port       = 8080
     to_port         = 8080
     protocol        = "tcp"
-    security_groups = ["${var.jenkins_sg_id}"]
+    security_groups = ["${aws_security_group.test_sg.id}"]
   }
   
   ingress {
@@ -147,7 +172,7 @@ resource "aws_security_group" "prod_pwa_security_group" {
     from_port       = 8080
     to_port         = 8080
     protocol        = "tcp"
-    security_groups = ["${var.jenkins_sg_id}"]
+    security_groups = ["${aws_security_group.test_sg.id}"]
   }
   
   ingress {
@@ -177,7 +202,7 @@ resource "aws_security_group" "prod_subscription_security_group" {
     from_port       = 8080
     to_port         = 8080
     protocol        = "tcp"
-    security_groups = ["${var.jenkins_sg_id}"]
+    security_groups = ["${aws_security_group.test_sg.id}"]
   }
   
   ingress {
@@ -207,7 +232,7 @@ resource "aws_security_group" "prod_timesprime_security_group" {
     from_port       = 8080
     to_port         = 8080
     protocol        = "tcp"
-    security_groups = ["${var.jenkins_sg_id}"]
+    security_groups = ["${aws_security_group.test_sg.id}"]
   }
   
   ingress {
@@ -258,7 +283,7 @@ resource "aws_security_group" "prod_es_security_group" {
     from_port       = 8080
     to_port         = 8080
     protocol        = "tcp"
-    security_groups = ["${var.jenkins_sg_id}"]
+    security_groups = ["${aws_security_group.test_sg.id}"]
   }
   
   ingress {
@@ -355,7 +380,7 @@ resource "aws_security_group" "prod_communication_db_security_group" {
     from_port       = 3306
     to_port         = 3306
     protocol        = "tcp"
-    security_groups = ["${var.jenkins_sg_id}"]
+    security_groups = ["${aws_security_group.test_sg.id}"]
   }
 
   ingress {
@@ -392,7 +417,7 @@ resource "aws_security_group" "prod_timesprime_db_security_group" {
     from_port       = 3306
     to_port         = 3306
     protocol        = "tcp"
-    security_groups = ["${var.jenkins_sg_id}"]
+    security_groups = ["${aws_security_group.test_sg.id}"]
   }
 
   ingress {
@@ -429,7 +454,7 @@ resource "aws_security_group" "prod_subscription_db_security_group" {
     from_port       = 3306
     to_port         = 3306
     protocol        = "tcp"
-    security_groups = ["${var.jenkins_sg_id}"]
+    security_groups = ["${aws_security_group.test_sg.id}"]
   }
 
   ingress {

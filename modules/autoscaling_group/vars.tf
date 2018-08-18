@@ -33,9 +33,9 @@ variable "security_group_ids" {
 }
 
 
-variable "user_data" {
-  default = ""
-}
+#variable "user_data" {
+#  default = ""
+#}
 
 
 variable "iam_instance_profile" {

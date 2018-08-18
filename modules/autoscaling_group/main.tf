@@ -37,7 +37,7 @@ resource "aws_launch_configuration" "lc" {
   instance_type        = "${var.instance_type}"
   key_name             = "${var.key_name}"
   security_groups      = ["${var.security_group_ids}"]
-  user_data            = "${var.user_data}"
+  #user_data            = "${var.user_data}"
   iam_instance_profile = "${var.iam_instance_profile}"
 
   root_block_device {

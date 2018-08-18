@@ -185,7 +185,7 @@ variable "comm_asg_desired" {
 
 variable "comm_asg_ami_id" {
   description = "AMI ID of the ASG group"
-  default     = ""
+  default     = "ami-b70554c8"
 }
 
 variable "times_asg_max" {
@@ -205,7 +205,7 @@ variable "times_asg_desired" {
 
 variable "times_asg_ami_id" {
   description = "AMI ID of the ASG group"
-  default     = ""
+  default     = "ami-b70554c8"
 }
 
 variable "sub_asg_max" {
@@ -225,7 +225,7 @@ variable "sub_asg_desired" {
 
 variable "sub_asg_ami_id" {
   description = "AMI ID of the ASG group"
-  default     = ""
+  default     = "ami-b70554c8"
 }
 
 variable "pwa_asg_max" {
@@ -245,7 +245,7 @@ variable "pwa_asg_desired" {
 
 variable "pwa_asg_ami_id" {
   description = "AMI ID of the ASG group"
-  default     = ""
+  default     = "ami-b70554c8"
 }
 
 variable "communication_instance_type" {
