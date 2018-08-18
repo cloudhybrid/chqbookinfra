@@ -179,28 +179,28 @@ resource "aws_security_group" "prod_es_security_group" {
     from_port       = 9200
     to_port         = 9200
     protocol        = "tcp"
-    cidr_blocks     = "${var.priv_app_sub_a_cidr}"
+    cidr_blocks     = ["${var.priv_app_sub_a_cidr}"]
   }
 
   ingress {
     from_port       = 9300
     to_port         = 9300
     protocol        = "tcp"
-    cidr_blocks     = "${var.priv_app_sub_a_cidr}"
+    cidr_blocks     = ["${var.priv_app_sub_a_cidr}"]
   }
 
   ingress {
     from_port       = 9200
     to_port         = 9200
     protocol        = "tcp"
-    cidr_blocks     = "${var.priv_app_sub_b_cidr}"
+    cidr_blocks     = ["${var.priv_app_sub_b_cidr}"]
   }
 
   ingress {
     from_port       = 9300
     to_port         = 9300
     protocol        = "tcp"
-    cidr_blocks     = "${var.priv_app_sub_b_cidr}"
+    cidr_blocks     = ["${var.priv_app_sub_b_cidr}"]
   }
 
   ingress {
@@ -230,14 +230,14 @@ resource "aws_security_group" "prod_mongo_security_group" {
     from_port       = 9200
     to_port         = 9200
     protocol        = "tcp"
-    cidr_blocks     = "${var.priv_app_sub_a_cidr}"
+    cidr_blocks     = ["${var.priv_app_sub_a_cidr}"]
   }
 
   ingress {
     from_port       = 9200
     to_port         = 9200
     protocol        = "tcp"
-    cidr_blocks     = "${var.priv_app_sub_b_cidr}"
+    cidr_blocks     = ["${var.priv_app_sub_b_cidr}"]
   }
   
   ingress {
@@ -260,14 +260,14 @@ resource "aws_security_group" "prod_redis_security_group" {
     from_port       = 6379
     to_port         = 6379
     protocol        = "tcp"
-    cidr_blocks     = "${var.priv_app_sub_a_cidr}"
+    cidr_blocks     = ["${var.priv_app_sub_a_cidr}"]
   }
 
   ingress {
     from_port       = 6379
     to_port         = 6379
     protocol        = "tcp"
-    cidr_blocks     = "${var.priv_app_sub_b_cidr}"
+    cidr_blocks     = ["${var.priv_app_sub_b_cidr}"]
   }
   
   ingress {
@@ -290,14 +290,14 @@ resource "aws_security_group" "prod_communication_db_security_group" {
     from_port       = 3306
     to_port         = 3306
     protocol        = "tcp"
-    cidr_blocks     = "${var.priv_app_sub_a_cidr}"
+    cidr_blocks     = ["${var.priv_app_sub_a_cidr}"]
   }
 
   ingress {
     from_port       = 3306
     to_port         = 3306
     protocol        = "tcp"
-    cidr_blocks     = "${var.priv_app_sub_b_cidr}"
+    cidr_blocks     = ["${var.priv_app_sub_b_cidr}"]
   }
   
   ingress {
@@ -327,14 +327,14 @@ resource "aws_security_group" "prod_timesprime_db_security_group" {
     from_port       = 3306
     to_port         = 3306
     protocol        = "tcp"
-    cidr_blocks     = "${var.priv_app_sub_a_cidr}"
+    cidr_blocks     = ["${var.priv_app_sub_a_cidr}"]
   }
 
   ingress {
     from_port       = 3306
     to_port         = 3306
     protocol        = "tcp"
-    cidr_blocks     = "${var.priv_app_sub_b_cidr}"
+    cidr_blocks     = ["${var.priv_app_sub_b_cidr}"]
   }
   
   ingress {
@@ -364,14 +364,14 @@ resource "aws_security_group" "prod_subscription_db_security_group" {
     from_port       = 3306
     to_port         = 3306
     protocol        = "tcp"
-    cidr_blocks     = "${var.priv_app_sub_a_cidr}"
+    cidr_blocks     = ["${var.priv_app_sub_a_cidr}"]
   }
 
   ingress {
     from_port       = 3306
     to_port         = 3306
     protocol        = "tcp"
-    cidr_blocks     = "${var.priv_app_sub_b_cidr}"
+    cidr_blocks     = ["${var.priv_app_sub_b_cidr}"]
   }
   
   ingress {
