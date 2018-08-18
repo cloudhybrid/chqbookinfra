@@ -71,7 +71,7 @@ module "timesprime_tg" {
 
 module "external_alb" {
   source                     = "../modules/aws_alb"
-  name                       = "external_alb"
+  name                       = "external-alb"
   internal                   = "false"
   security_group_ids         = ["${module.external_alb_sg.id}"]
   alb_subnets                = ["${module.pub_sub_a.id}", "${module.pub_sub_b.id}"]
@@ -91,7 +91,7 @@ module "external_alb_listener" {
 
 module "internal_alb" {
   source                     = "../modules/aws_alb"
-  name                       = "internal_alb"
+  name                       = "internal-alb"
   internal                   = "true"
   security_group_ids         = ["${module.internal_alb_sg.id}"]
   alb_subnets                = ["${module.priv_app_sub_a.id}", "${module.priv_app_sub_b.id}"]

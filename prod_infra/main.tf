@@ -184,7 +184,7 @@ module "prod_communication_asg" {
   ami_id                = "${var.asg_ami_id}"
   instance_type         = "${var.communication_instance_type}"
   security_group_ids    = ["${aws_security_group.communication_security_group.id}"]
-  user_data             = ""
+#   user_data             = ""
   asg_root_volume_size  = "${var.root_volume_size_asg}"
   target_group_arns     = "${module.communication_tg.arn}"
   env                   =  "prod"
@@ -201,7 +201,7 @@ module "prod_pwa_asg" {
   ami_id                = "${var.asg_ami_id}"
   instance_type         = "${var.pwa_instance_type}"
   security_group_ids    = ["${aws_security_group.prod_pwa_security_group.id}"]
-  user_data             = ""
+#   user_data             = ""
   asg_root_volume_size  = "${var.root_volume_size_asg}"
   target_group_arns     = "${module.pwa_tg.arn}"
   env                   =  "prod"
@@ -218,7 +218,7 @@ module "prod_subscription_asg" {
   ami_id                = "${var.asg_ami_id}"
   instance_type         = "${var.subscription_instance_type}"
   security_group_ids    = ["${aws_security_group.prod_subscription_security_group.id}"]
-  user_data             = ""
+#   user_data             = ""
   asg_root_volume_size  = "${var.root_volume_size_asg}"
   target_group_arns     = "${module.subscription_tg.arn}"
   env                   =  "prod"
@@ -235,7 +235,7 @@ module "prod_timesprime_asg" {
   ami_id                = "${var.asg_ami_id}"
   instance_type         = "${var.timesprime_instance_type}"
   security_group_ids    = ["${aws_security_group.prod_timesprime_security_group.id}"]
-  user_data             = ""
+#   user_data             = ""
   asg_root_volume_size  = "${var.root_volume_size_asg}"
   target_group_arns     = "${module.subscription_tg.arn}"
   env                   =  "prod"

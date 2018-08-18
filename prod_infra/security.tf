@@ -1,9 +1,45 @@
-module "kafka_sg" {
-  source              = "../modules/security_group"
-  vpc_id              = "${module.vpc.id}"
-  name                = "prod_kafka_sg"
-  ingress_cidr_blocks = ["223.165.28.230/32", "13.127.254.190/32", "13.127.121.231/32", "13.127.240.182/32", "103.18.140.78/32", "103.18.142.24/29", "103.18.142.21/32", "103.18.142.22/32", "103.18.142.23/32"]
-  ingress_rules       = ["kafka-rule", "zookeeper-rule"]
+resource "aws_security_group" "kafka_sg" {
+  name        = "prod_kafka_sg"
+  vpc_id      = "${module.vpc.id}"
+  
+  ingress {
+    from_port       = 9095
+    to_port         = 9095
+    protocol        = "tcp"
+    cidr_blocks     = ["${var.priv_app_sub_a_cidr}"]
+  }
+
+  ingress {
+    from_port       = 9095
+    to_port         = 9095
+    protocol        = "tcp"
+    cidr_blocks     = ["${var.priv_app_sub_b_cidr}"]
+  }
+  
+  ingress {
+    from_port       = 2181
+    to_port         = 2181
+    protocol        = "tcp"
+    cidr_blocks     = ["${var.priv_app_sub_a_cidr}"]
+  }
+
+  ingress {
+    from_port       = 2181
+    to_port         = 2181
+    protocol        = "tcp"
+    cidr_blocks     = ["${var.priv_app_sub_b_cidr}"]
+  }
+
+  ingress {
+    from_port       = 22
+    to_port         = 22
+    protocol        = "tcp"
+    security_groups = ["${module.bastion_security_group.id}"]
+  }
+  
+  tags {
+    Name = "prod_kafka_sg"
+  }
 }
 
 resource "aws_security_group_rule" "kafka-allow-bastion" {
