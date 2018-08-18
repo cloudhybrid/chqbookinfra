@@ -12,6 +12,11 @@ module "vpc" {
     enable_dns_support   = "${var.enable_dns_support}"
 }
 
+module "nat_gateway" {
+  source                  = "../modules/nat-gateway"
+  subnet_id               = "${module.pub_sub_b.id}"
+}
+
 module "pub_sub_a" {
     source                  = "../modules/subnet"
     vpc_id                  = "${module.vpc.id}"
@@ -83,11 +88,6 @@ module "priv_middleware_sub_b" {
     map_public_ip_on_launch = "false"
 }
 
-module "nat_gateway" {
-  source                  = "../modules/nat-gateway"
-  subnet_id               = "${module.pub_sub_b.id}"
-}
-
 module "public_route_table" {
   source                   = "../modules/route_table"
   vpc_id                   = "${module.vpc.id}"
@@ -138,27 +138,6 @@ module "priv_middleware_sn_b_association" {
   route_table_id   = "${module.private_route_table.route_table_id}"
 }
 
-module "key_pair" {
-    source          = "../modules/key_pair"
-    name            = "${var.prod_key_pair_name}"
-    public_key_path = "../pub_keys/prod_bastion.pub"
-}
-
-module "bastion_security_group" {
-  source              = "../modules/security_group"
-  vpc_id              = "${module.vpc.id}"
-  name                = "${var.bastion_security_group_name}"
-  ingress_with_cidr_blocks = [
-    {
-      from_port   = 22
-      to_port     = 22
-      protocol    = "tcp"
-      description = "SSH"
-      cidr_blocks = "0.0.0.0/0"
-    },
-  ]
-}
-
 module "bastion_instance" {
     source                      = "../modules/ec2"
     name                        = "${var.bastion_server_name}"
@@ -178,10 +157,10 @@ module "prod_communication_asg" {
   source                = "../modules/autoscaling_group"
   name                  = "asg_prod_communication"
   instance_subnets      = ["${module.priv_app_sub_a.id}", "${module.priv_app_sub_b.id}"]
-  asg_max               = "${var.asg_max}"
-  asg_min               = "${var.asg_min}"
-  asg_desired           = "${var.asg_desired}"
-  ami_id                = "${var.asg_ami_id}"
+  asg_max               = "${var.comm_asg_max}"
+  asg_min               = "${var.comm_asg_min}"
+  asg_desired           = "${var.comm_asg_desired}"
+  ami_id                = "${var.comm_asg_ami_id}"
   instance_type         = "${var.communication_instance_type}"
   security_group_ids    = ["${aws_security_group.communication_security_group.id}"]
 #   user_data             = ""
@@ -195,10 +174,10 @@ module "prod_pwa_asg" {
   source                = "../modules/autoscaling_group"
   name                  = "asg_prod_pwa"
   instance_subnets      = ["${module.priv_app_sub_a.id}", "${module.priv_app_sub_b.id}"]
-  asg_max               = "${var.asg_max}"
-  asg_min               = "${var.asg_min}"
-  asg_desired           = "${var.asg_desired}"
-  ami_id                = "${var.asg_ami_id}"
+  asg_max               = "${var.pwa_asg_max}"
+  asg_min               = "${var.pwa_asg_min}"
+  asg_desired           = "${var.pwa_asg_desired}"
+  ami_id                = "${var.pwa_asg_ami_id}"
   instance_type         = "${var.pwa_instance_type}"
   security_group_ids    = ["${aws_security_group.prod_pwa_security_group.id}"]
 #   user_data             = ""
@@ -212,10 +191,10 @@ module "prod_subscription_asg" {
   source                = "../modules/autoscaling_group"
   name                  = "asg_prod_subscription"
   instance_subnets      = ["${module.priv_app_sub_a.id}", "${module.priv_app_sub_b.id}"]
-  asg_max               = "${var.asg_max}"
-  asg_min               = "${var.asg_min}"
-  asg_desired           = "${var.asg_desired}"
-  ami_id                = "${var.asg_ami_id}"
+  asg_max               = "${var.sub_asg_max}"
+  asg_min               = "${var.sub_asg_min}"
+  asg_desired           = "${var.sub_asg_desired}"
+  ami_id                = "${var.sub_asg_ami_id}"
   instance_type         = "${var.subscription_instance_type}"
   security_group_ids    = ["${aws_security_group.prod_subscription_security_group.id}"]
 #   user_data             = ""
@@ -229,10 +208,10 @@ module "prod_timesprime_asg" {
   source                = "../modules/autoscaling_group"
   name                  = "asg_prod_timesprime"
   instance_subnets      = ["${module.priv_app_sub_a.id}", "${module.priv_app_sub_b.id}"]
-  asg_max               = "${var.asg_max}"
-  asg_min               = "${var.asg_min}"
-  asg_desired           = "${var.asg_desired}"
-  ami_id                = "${var.asg_ami_id}"
+  asg_max               = "${var.times_asg_max}"
+  asg_min               = "${var.times_asg_min}"
+  asg_desired           = "${var.times_asg_desired}"
+  ami_id                = "${var.times_asg_ami_id}"
   instance_type         = "${var.timesprime_instance_type}"
   security_group_ids    = ["${aws_security_group.prod_timesprime_security_group.id}"]
 #   user_data             = ""

@@ -78,7 +78,7 @@ module "external_alb" {
   enable_deletion_protection = "false"
   env                        = "prod"
   project                    = "timesprime"
-  purpose                    = "top level management elb"
+  purpose                    = "top level prod public alb"
 }
 
 module "external_alb_listener" {
@@ -98,7 +98,7 @@ module "internal_alb" {
   enable_deletion_protection = "false"
   env                        = "prod"
   project                    = "timesprime"
-  purpose                    = "top level management elb"
+  purpose                    = "private alb"
 }
 
 module "internal_alb_listener" {
@@ -114,21 +114,21 @@ module "internal_alb_communication_listener_rule_90" {
   listener_arn     = "${module.internal_alb.arn}"
   priority         = "90"
   target_group_arn = "${module.communication_tg.arn}"
-  host-header      = "com.${var.route53_zone_name}"
+  host-header      = "comm.${var.route53_zone_name}"
 }
 
-module "internal_alb_subscription_listener_rule_90" {
+module "internal_alb_subscription_listener_rule_100" {
   source           = "../modules/alb_listener_rule"
   listener_arn     = "${module.internal_alb.arn}"
-  priority         = "90"
+  priority         = "100"
   target_group_arn = "${module.subscription_tg.arn}"
   host-header      = "sub.${var.route53_zone_name}"
 }
 
-module "internal_alb_timesprime_listener_rule_90" {
+module "internal_alb_timesprime_listener_rule_110" {
   source           = "../modules/alb_listener_rule"
   listener_arn     = "${module.internal_alb.arn}"
-  priority         = "90"
+  priority         = "110"
   target_group_arn = "${module.timesprime_tg.arn}"
-  host-header      = "time.${var.route53_zone_name}"
+  host-header      = "timesprime.${var.route53_zone_name}"
 }

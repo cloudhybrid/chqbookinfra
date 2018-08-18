@@ -1,3 +1,18 @@
+module "bastion_security_group" {
+  source              = "../modules/security_group"
+  vpc_id              = "${module.vpc.id}"
+  name                = "${var.bastion_security_group_name}"
+  ingress_with_cidr_blocks = [
+    {
+      from_port   = 22
+      to_port     = 22
+      protocol    = "tcp"
+      description = "SSH"
+      cidr_blocks = "0.0.0.0/0"
+    },
+  ]
+}
+
 resource "aws_security_group" "kafka_sg" {
   name        = "prod_kafka_sg"
   vpc_id      = "${module.vpc.id}"

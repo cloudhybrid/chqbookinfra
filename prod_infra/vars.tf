@@ -108,7 +108,7 @@ variable "priv_middleware_sub_b_cidr" {
   default     = "10.0.112.0/20"
 }
 
-variable "priv_middleware_sub_a_name" {
+variable "priv_middleware_sub_b_name" {
   description = "Name of the protected subnet of middleware AZB"
   default     = "prod_mid_priv_sub_azb"
 }
@@ -168,22 +168,62 @@ variable "jenkins_sg_id" {
   default     = ""
 }
 
-variable "asg_max" {
+variable "comm_asg_max" {
   description = "Desired count for asg max"
   default     = "1"
 }
 
-variable "asg_min" {
+variable "comm_asg_min" {
   description = "Desired count for asg min"
   default     = "1"
 }
 
-variable "asg_desired" {
+variable "comm_asg_desired" {
   description = "Desired count for asg desired"
   default     = "1"
 }
 
-variable "asg_ami_id" {
+variable "comm_asg_ami_id" {
+  description = "AMI ID of the ASG group"
+  default     = ""
+}
+
+variable "times_asg_max" {
+  description = "Desired count for asg max"
+  default     = "1"
+}
+
+variable "times_asg_min" {
+  description = "Desired count for asg min"
+  default     = "1"
+}
+
+variable "times_asg_desired" {
+  description = "Desired count for asg desired"
+  default     = "1"
+}
+
+variable "times_asg_ami_id" {
+  description = "AMI ID of the ASG group"
+  default     = ""
+}
+
+variable "sub_asg_max" {
+  description = "Desired count for asg max"
+  default     = "1"
+}
+
+variable "sub_asg_min" {
+  description = "Desired count for asg min"
+  default     = "1"
+}
+
+variable "sub_asg_desired" {
+  description = "Desired count for asg desired"
+  default     = "1"
+}
+
+variable "sub_asg_ami_id" {
   description = "AMI ID of the ASG group"
   default     = ""
 }
@@ -213,7 +253,3 @@ variable "timesprime_instance_type" {
   default     = "t2.medium" 
 }
 
-variable "jenkins_sg_id" {
-  description = "ID of the Jenkins security group"
-  default     = ""
-}
