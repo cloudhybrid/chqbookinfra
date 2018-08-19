@@ -41,13 +41,13 @@ pipeline {
           }
       }
 
-      if(params.Environment == "management")
-      {
-          stage('Deploying management infra with terraform') {
-              steps {
-                  echo "Deployement on management is succesful !!!"
-              }
+      stage('Deploying management infra with terraform') {
+          when {
+              expression { params.Environment == 'management' }
           }
-      }
-  }
+          steps {
+                    echo "Deployement on management is succesful !!!"
+            }
+        }
+    }
 }
