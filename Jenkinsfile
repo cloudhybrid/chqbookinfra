@@ -36,7 +36,7 @@ ansiColor('xterm') {
             //         id: 'userInput', message: 'Are you prepared to deploy?', parameters: [
             //         [$class: 'ChoiceParameterDefinition', choices: ['Approve', 'Reject'], description: 'Approve/Disallow deployment', name: 'deploy-check']
         //   ]
-        )
+        // )
         }
 
         // if(${REQUESTED_ACTION} == "Approve")
