@@ -26,7 +26,7 @@ ansiColor('xterm') {
         stage("Plan the infra with terraform")
         {
             echo "terraform plan -var region=${Region} -var profile=${Iam_Profile}"
-            mail(to: 'EMAIL@example.com',
+            mail(to: 'abhishek.dubey@opstree.com',
                 subject: "${currentBuild.fullDisplayName} is ready for deployment",
                 body: "URL: ${env.BUILD_URL}")
             input message: 'Do you want to apply terraform?', parameters: [choice(choices: ['Approve', 'Reject'], description: '', name: 'REQUESTED_ACTION')]
