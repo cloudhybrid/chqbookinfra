@@ -32,7 +32,21 @@ ansiColor('xterm') {
                 subject: "${currentBuild.fullDisplayName} is ready for deployment",
                 body: "Please approve the URL: ${env.BUILD_URL}input")
 
-            input message: 'Do you want to deploy terraform code on '"${Environment}"'?', submitterParameter: 'Action'
+            input message: 'Do you want to deploy terraform code?', submitterParameter: 'Action'
+        }
+
+        if(params.Environment == "management")
+        {
+            stage("Deploying on Management VPC with terraform"){
+                echo "Deploying on management vpc with terraform"
+            }     
+        }
+
+        if(params.Environment == "prod")
+        {
+            stage("Deploying on Prod VPC with terraform"){
+                echo "Deploying on Prod vpc with terraform"
+            }
         }
     }
 }
