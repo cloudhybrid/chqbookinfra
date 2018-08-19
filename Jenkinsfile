@@ -35,7 +35,7 @@ pipeline {
               echo "terraform plan -var region=${Region} -var profile=${Iam_Profile}"
                 mail(to: 'abhishek.dubey@opstree.com',
                     subject: "${currentBuild.fullDisplayName} is ready for deployment",
-                    body: "URL: ${env.BUILD_URL}")
+                    body: "Please approve the URL: ${env.BUILD_URL}input")
           }
       }
   }
