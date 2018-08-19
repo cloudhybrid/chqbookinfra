@@ -7,6 +7,4 @@ module "vpc_peering" {
   source_vpc_cidr           = "10.0.0.0/16"
   source_vpc_route_table_id = "${data.terraform_remote_state.timesprime-infra_prod_infra.public_route_table_id}"
   peer_vpc_cidr             = "10.10.0.0/16"
-  source_vpc_sg_id          = "${data.terraform_remote_state.timesprime-infra_prod_infra.default_sg_id}"
-  peered_vpc_sg_id          = "${data.terraform_remote_state.timesprime-infra_management_infra.default_sg_id}"
 }
