@@ -3,6 +3,10 @@ output "vpc_id" {
   value = "${module.vpc.id}"
 }
 
+output "default_sg_id" {
+  value = "${module.vpc.default_sg_id}"
+}
+
 output "route53_zone_id" {
   description = "Ouput ID of the created Route53 zone"
   value = "${module.vpc.zone_id}"
