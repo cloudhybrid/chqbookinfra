@@ -11,7 +11,7 @@ module "key_pair" {
 
 module "bastion_secuirty_group" {
   source              = "../modules/security_group"
-  vpc_id              = "${module.vpc.id}"
+  vpc_id              = "${data.terraform_remote_state.timesprime-infra_management_infra.vpc_id}"
   name                = "${var.bastion_secuirty_group_name}"
   ingress_with_cidr_blocks = [
     {
@@ -26,7 +26,7 @@ module "bastion_secuirty_group" {
 
 module "alb_secuirty_group" {
   source              = "../modules/security_group"
-  vpc_id              = "${module.vpc.id}"
+  vpc_id              = "${data.terraform_remote_state.timesprime-infra_management_infra.vpc_id}"
   name                = "${var.alb_secuirty_group_name}"
   ingress_with_cidr_blocks = [
     {
@@ -70,7 +70,7 @@ module "route53_record" {
 
 resource "aws_security_group" "jenkins_secuirty_group" {
   name        = "${var.jenkins_secuirty_group_name}"
-  vpc_id      = "${module.vpc.id}"
+  vpc_id      = "${data.terraform_remote_state.timesprime-infra_management_infra.vpc_id}"
 
   ingress {
     from_port       = 22

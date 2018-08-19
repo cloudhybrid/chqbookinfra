@@ -1,3 +1,8 @@
+provider "aws" {
+  region  = "${var.region}"
+  profile = "${var.profile}"
+}
+
 module "vpc_peering" {
   source                    = "../modules/vpc_peering"
   peer_vpc_id               = "${data.terraform_remote_state.timesprime-infra_management_infra.vpc_id}"
