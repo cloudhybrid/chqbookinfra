@@ -4,7 +4,7 @@ ansiColor('xterm') {
         [$class: 'RebuildSettings', autoRebuild: false, rebuildDisabled: false],
         disableConcurrentBuilds(),
         parameters([choice(choices: 'us-east-1\nus-east-2\nus-west-1\nus-west-2\nap-south-1', description: 'Region in which you want to deploy code', name: 'Region'),
-        choice(choices: 'management\nprod', description: 'ENV in which you want to deploy code Management or Prod', name: 'Environment'),
+        choice(choices: 'management\nprod', description: 'ENV or VPC in which you want to deploy code Management or Prod', name: 'Environment'),
         string(defaultValue: 'jenkins_profile', description: 'Name of the instance profile that terraform will use', name: 'Iam_Profile')])
 
     ])
@@ -21,12 +21,14 @@ ansiColor('xterm') {
 
         stage("Initialize the terraform with module and plugin")
         {
-            echo "terraform init"
+            echo "Initializing the modules and plugin for terraform"
+            sh "cd ${Environment}_infra; terraform init"
         }
 
         stage("Plan the infra with terraform")
         {
-            echo "terraform plan -var region=${Region} -var profile=${Iam_Profile}"
+            echo "Planning the infra for ${params.Environment}"
+            sh "cd ${Environment}_infra; terraform plan -var region=${Region} -var profile=${Iam_Profile}"
 
             mail(to: 'abhishek.dubey@opstree.com',
                 subject: "${currentBuild.fullDisplayName} is ready for deployment",
@@ -39,6 +41,7 @@ ansiColor('xterm') {
         {
             stage("Deploying on Management VPC with terraform"){
                 echo "Deploying on management vpc with terraform"
+                sh "cd ${Environment}_infra; terraform apply -auto-approve -var region=${Region} -var profile=${Iam_Profile}"
             }     
         }
 
@@ -46,6 +49,7 @@ ansiColor('xterm') {
         {
             stage("Deploying on Prod VPC with terraform"){
                 echo "Deploying on Prod vpc with terraform"
+                sh "cd ${Environment}_infra; terraform apply -auto-approve -var region=${Region} -var profile=${Iam_Profile}"
             }
         }
     }
