@@ -32,7 +32,7 @@ ansiColor('xterm') {
                 subject: "${currentBuild.fullDisplayName} is ready for deployment",
                 body: "Please approve the URL: ${env.BUILD_URL}input")
 
-            input message: 'Do you want to deploy terraform code on ${Environment}?', submitterParameter: 'Action'
+            input message: 'Do you want to deploy terraform code on '"${Environment}"'?', submitterParameter: 'Action'
         }
     }
 }
