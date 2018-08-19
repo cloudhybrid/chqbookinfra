@@ -77,6 +77,13 @@ resource "aws_security_group" "kafka_sg" {
     security_groups = ["${module.bastion_security_group.id}"]
   }
   
+  egress {
+    from_port       = 0
+    to_port         = 0
+    protocol        = "-1"
+    cidr_blocks     = ["0.0.0.0/0"]
+  }
+
   tags {
     Name = "prod_kafka_sg"
   }
@@ -144,6 +151,13 @@ resource "aws_security_group" "communication_security_group" {
     security_groups = ["${module.bastion_security_group.id}"]
   }
   
+  egress {
+    from_port       = 0
+    to_port         = 0
+    protocol        = "-1"
+    cidr_blocks     = ["0.0.0.0/0"]
+  }
+
   tags {
     Name = "communication_security_group"
   }
@@ -174,6 +188,13 @@ resource "aws_security_group" "prod_pwa_security_group" {
     security_groups = ["${module.bastion_security_group.id}"]
   }
   
+  egress {
+    from_port       = 0
+    to_port         = 0
+    protocol        = "-1"
+    cidr_blocks     = ["0.0.0.0/0"]
+  }
+
   tags {
     Name = "prod_pwa_security_group"
   }
@@ -204,6 +225,13 @@ resource "aws_security_group" "prod_subscription_security_group" {
     security_groups = ["${module.bastion_security_group.id}"]
   }
   
+  egress {
+    from_port       = 0
+    to_port         = 0
+    protocol        = "-1"
+    cidr_blocks     = ["0.0.0.0/0"]
+  }
+
   tags {
     Name = "prod_subscription_security_group"
   }
@@ -234,6 +262,13 @@ resource "aws_security_group" "prod_timesprime_security_group" {
     security_groups = ["${module.bastion_security_group.id}"]
   }
   
+  egress {
+    from_port       = 0
+    to_port         = 0
+    protocol        = "-1"
+    cidr_blocks     = ["0.0.0.0/0"]
+  }
+
   tags {
     Name = "prod_timesprime_security_group"
   }
@@ -284,7 +319,14 @@ resource "aws_security_group" "prod_es_security_group" {
     protocol        = "tcp"
     security_groups = ["${module.bastion_security_group.id}"]
   }
-  
+
+  egress {
+    from_port       = 0
+    to_port         = 0
+    protocol        = "-1"
+    cidr_blocks     = ["0.0.0.0/0"]
+  }
+
   tags {
     Name = "prod_es_security_group"
   }
@@ -315,6 +357,13 @@ resource "aws_security_group" "prod_mongo_security_group" {
     security_groups = ["${module.bastion_security_group.id}"]
   }
   
+  egress {
+    from_port       = 0
+    to_port         = 0
+    protocol        = "-1"
+    cidr_blocks     = ["0.0.0.0/0"]
+  }
+
   tags {
     Name = "prod_mongo_security_group"
   }
@@ -344,7 +393,14 @@ resource "aws_security_group" "prod_redis_security_group" {
     protocol        = "tcp"
     security_groups = ["${module.bastion_security_group.id}"]
   }
-  
+
+  egress {
+    from_port       = 0
+    to_port         = 0
+    protocol        = "-1"
+    cidr_blocks     = ["0.0.0.0/0"]
+  }
+
   tags {
     Name = "prod_redis_security_group"
   }
@@ -382,6 +438,13 @@ resource "aws_security_group" "prod_communication_db_security_group" {
     security_groups = ["${module.bastion_security_group.id}"]
   }
   
+  egress {
+    from_port       = 0
+    to_port         = 0
+    protocol        = "-1"
+    cidr_blocks     = ["0.0.0.0/0"]
+  }
+
   tags {
     Name = "prod_communication_db_security_group"
   }
@@ -419,6 +482,13 @@ resource "aws_security_group" "prod_timesprime_db_security_group" {
     security_groups = ["${module.bastion_security_group.id}"]
   }
   
+  egress {
+    from_port       = 0
+    to_port         = 0
+    protocol        = "-1"
+    cidr_blocks     = ["0.0.0.0/0"]
+  }
+
   tags {
     Name = "prod_timesprime_db_security_group"
   }
@@ -456,6 +526,13 @@ resource "aws_security_group" "prod_subscription_db_security_group" {
     security_groups = ["${module.bastion_security_group.id}"]
   }
   
+  egress {
+    from_port       = 0
+    to_port         = 0
+    protocol        = "-1"
+    cidr_blocks     = ["0.0.0.0/0"]
+  }
+
   tags {
     Name = "prod_subscription_db_security_group"
   }
