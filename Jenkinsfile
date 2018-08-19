@@ -29,5 +29,14 @@ pipeline {
               echo "terraform init"
           }
       }
+
+      stage('Plan the infra with terraform') {
+          steps {
+              echo "terraform plan -var region=${Region} -var profile=${Iam_Profile}"
+                mail(to: 'abhishek.dubey@opstree.com',
+                    subject: "${currentBuild.fullDisplayName} is ready for deployment",
+                    body: "URL: ${env.BUILD_URL}")
+          }
+      }
   }
 }
