@@ -8,3 +8,7 @@ module "vpc_peering" {
   source_vpc_route_table_id = "${data.terraform_remote_state.timesprime-infra_prod_infra.public_route_table_id}"
   peer_vpc_cidr             = "10.10.0.0/16"
 }
+
+output "vpc_peering_id" {
+  value = "${module.vpc_peering.aws_peering_id}"
+}
