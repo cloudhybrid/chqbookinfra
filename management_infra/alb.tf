@@ -3,7 +3,7 @@ module "default-tg" {
   target_group_name     = "default-tg"
   backend_port          = "80"
   backend_protocol      = "HTTP"
-  vpc_id                = "${module.vpc.id}"
+  vpc_id                = "${data.terraform_remote_state.timesprime-infra_management_infra.vpc_id}"
   health_check_interval = "10"
   health_check_path     = "/"
   health_check_port     = "traffic-port"
@@ -17,7 +17,7 @@ module "management_alb" {
   name                       = "management-alb"
   internal                   = "false"
   security_group_ids         = ["${module.alb_secuirty_group.id}"]
-  alb_subnets                = ["${module.pub_sub_a.id}", "${module.pub_sub_b.id}"]
+  alb_subnets                = ["${data.terraform_remote_state.timesprime-infra_management_infra.public_subnet_a_id}", "${data.terraform_remote_state.timesprime-infra_management_infra.public_subnet_b_id}"]
   enable_deletion_protection = "false"
   env                        = "management"
   project                    = "timesprime"
@@ -37,7 +37,7 @@ module "jenkins-tg" {
   target_group_name     = "jenkins-tg"
   backend_port          = "8080"
   backend_protocol      = "HTTP"
-  vpc_id                = "${module.vpc.id}"
+  vpc_id                = "${data.terraform_remote_state.timesprime-infra_management_infra.vpc_id}"
   health_check_interval = "6"
   health_check_path     = "/"
   health_check_port     = "traffic-port"
