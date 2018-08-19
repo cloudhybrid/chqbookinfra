@@ -29,23 +29,28 @@ ansiColor('xterm') {
             mail(to: 'abhishek.dubey@opstree.com',
                 subject: "${currentBuild.fullDisplayName} is ready for deployment",
                 body: "URL: ${env.BUILD_URL}")
-            input message: 'Do you want to apply terraform?', parameters: [choice(choices: ['Approve', 'Reject'], description: '', name: 'REQUESTED_ACTION')]
+            // input message: 'Do you want to apply terraform?', parameters: [$class: (choices: ['Approve', 'Reject'], description: '', name: 'REQUESTED_ACTION')]
+            def userInput = input(
+                    id: 'userInput', message: 'Are you prepared to deploy?', parameters: [
+                    [$class: 'ChoiceParameterDefinition', choices: deployOptions, description: 'Approve/Disallow deployment', name: 'deploy-check']
+          ]
+        )
         }
 
-        if(${REQUESTED_ACTION} == "Approve")
-        {
-            stage("Deploying prod infra with terraform")
-            {
-                echo "terraform apply -auto-approve -var region=${Region} -var profile=${Iam_Profile}"
-            }
-        }
+        // if(${REQUESTED_ACTION} == "Approve")
+        // {
+        //     stage("Deploying prod infra with terraform")
+        //     {
+        //         echo "terraform apply -auto-approve -var region=${Region} -var profile=${Iam_Profile}"
+        //     }
+        // }
 
-        if(${REQUESTED_ACTION} == "Reject")
-        {
-            stage("Deploying or Applying action is aported")
-            {
-                echo "Deploying Action is aborted"
-            }
-        }
+        // if(${REQUESTED_ACTION} == "Reject")
+        // {
+        //     stage("Deploying or Applying action is aported")
+        //     {
+        //         echo "Deploying Action is aborted"
+        //     }
+        // }
     }
 }
