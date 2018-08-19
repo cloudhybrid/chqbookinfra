@@ -163,11 +163,6 @@ variable "root_volume_size" {
   default     = "40"
 }
 
-variable "jenkins_sg_id" {
-  description = "ID of the jenkins security group"
-  default     = ""
-}
-
 variable "comm_asg_max" {
   description = "Desired count for asg max"
   default     = "1"

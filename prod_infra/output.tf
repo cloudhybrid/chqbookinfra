@@ -165,7 +165,7 @@ output "internal_alb_url" {
 
 output "bastion_security_group_id" {
   description = "Ouput ID of the Bastion Security Group"
-  value = "${module.bastion_secuirty_group.id}"
+  value = "${module.bastion_security_group.id}"
 }
 
 output "kafka_security_group_id" {
@@ -233,7 +233,3 @@ output "subscription_db_security_group_id" {
   value = "${aws_security_group.prod_subscription_db_security_group.id}"
 }
 
-output "test_security_group_id" {
-  description = "Ouput ID of the Test Security Group"
-  value = "${aws_security_group.test_sg.id}"
-}
