@@ -8,6 +8,11 @@ variable "profile" {
   default     = "timesinternet"
 }
 
+variable "route53_zone_name" {
+  description = "Route53 record zone name"
+  default     = "internal.management.com"
+}
+
 variable "key_pair_name" {
   description = "Name of the key pair"
   default     = "management_key"

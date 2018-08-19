@@ -11,7 +11,7 @@ module "key_pair" {
 
 module "bastion_secuirty_group" {
   source              = "../modules/security_group"
-  vpc_id              = "${module.vpc.id}"
+  vpc_id              = "${data.terraform_remote_state.timesprime-infra_management_infra.vpc_id}"
   name                = "${var.bastion_secuirty_group_name}"
   ingress_with_cidr_blocks = [
     {
@@ -26,7 +26,7 @@ module "bastion_secuirty_group" {
 
 module "alb_secuirty_group" {
   source              = "../modules/security_group"
-  vpc_id              = "${module.vpc.id}"
+  vpc_id              = "${data.terraform_remote_state.timesprime-infra_management_infra.vpc_id}"
   name                = "${var.alb_secuirty_group_name}"
   ingress_with_cidr_blocks = [
     {
@@ -63,14 +63,14 @@ module "bastion_instance" {
 
 module "route53_record" {
     source              = "../modules/route53_record"
-    zone_id             = "${module.vpc.zone_id}"
+    zone_id             = "${data.terraform_remote_state.timesprime-infra_management_infra.route53_zone_id}"
     name                = "${var.bastion_server_name}.${var.route53_zone_name}"
     instance_private_ip = ["${module.bastion_instance.private_ip}"]
 }
 
 resource "aws_security_group" "jenkins_secuirty_group" {
   name        = "${var.jenkins_secuirty_group_name}"
-  vpc_id      = "${module.vpc.id}"
+  vpc_id      = "${data.terraform_remote_state.timesprime-infra_management_infra.vpc_id}"
 
   ingress {
     from_port       = 22
@@ -175,7 +175,7 @@ module "jenkins_instance" {
 
 module "jenkins_route53_record" {
     source              = "../modules/route53_record"
-    zone_id             = "${module.vpc.zone_id}"
+    zone_id             = "${data.terraform_remote_state.timesprime-infra_management_infra.route53_zone_id}"
     name                = "${var.jenkins_server_name}.${var.route53_zone_name}"
     instance_private_ip = ["${module.jenkins_instance.private_ip}"]
 }
