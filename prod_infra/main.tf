@@ -3,146 +3,11 @@ provider "aws" {
   profile = "${var.profile}"
 }
 
-module "vpc" {
-    source               = "../modules/vpc"
-    cidr                 = "${var.vpc_cidr}"
-    name                 = "${var.vpc_name}"
-    route53_zone_name    = "${var.route53_zone_name}"
-    enable_dns_hostnames = "${var.enable_dns_hostnames}"
-    enable_dns_support   = "${var.enable_dns_support}"
-}
-
-module "nat_gateway" {
-  source                  = "../modules/nat-gateway"
-  subnet_id               = "${module.pub_sub_b.id}"
-}
-
-module "pub_sub_a" {
-    source                  = "../modules/subnet"
-    vpc_id                  = "${module.vpc.id}"
-    cidr                    = "${var.pub_sub_a_cidr}"
-    az                      = "${var.region}a"
-    name                    = "${var.pub_sub_a_name}"
-    map_public_ip_on_launch = "false"
-}
-
-module "pub_sub_b" {
-    source                  = "../modules/subnet"
-    vpc_id                  = "${module.vpc.id}"
-    cidr                    = "${var.pub_sub_b_cidr}"
-    az                      = "${var.region}b"
-    name                    = "${var.pub_sub_b_name}"
-    map_public_ip_on_launch = "false"
-}
-
-module "priv_app_sub_a" {
-    source                  = "../modules/subnet"
-    vpc_id                  = "${module.vpc.id}"
-    cidr                    = "${var.priv_app_sub_a_cidr}"
-    az                      = "${var.region}a"
-    name                    = "${var.priv_app_sub_a_name}"
-    map_public_ip_on_launch = "false"
-}
-
-module "priv_app_sub_b" {
-    source                  = "../modules/subnet"
-    vpc_id                  = "${module.vpc.id}"
-    cidr                    = "${var.priv_app_sub_b_cidr}"
-    az                      = "${var.region}b"
-    name                    = "${var.priv_app_sub_b_name}"
-    map_public_ip_on_launch = "false"
-}
-module "priv_db_sub_a" {
-    source                  = "../modules/subnet"
-    vpc_id                  = "${module.vpc.id}"
-    cidr                    = "${var.priv_db_sub_a_cidr}"
-    az                      = "${var.region}a"
-    name                    = "${var.priv_db_sub_a_name}"
-    map_public_ip_on_launch = "false"
-}
-
-module "priv_db_sub_b" {
-    source                  = "../modules/subnet"
-    vpc_id                  = "${module.vpc.id}"
-    cidr                    = "${var.priv_db_sub_b_cidr}"
-    az                      = "${var.region}b"
-    name                    = "${var.priv_db_sub_b_name}"
-    map_public_ip_on_launch = "false"
-}
-
-module "priv_middleware_sub_a" {
-    source                  = "../modules/subnet"
-    vpc_id                  = "${module.vpc.id}"
-    cidr                    = "${var.priv_middleware_sub_a_cidr}"
-    az                      = "${var.region}a"
-    name                    = "${var.priv_middleware_sub_a_name}"
-    map_public_ip_on_launch = "false"
-}
-
-module "priv_middleware_sub_b" {
-    source                  = "../modules/subnet"
-    vpc_id                  = "${module.vpc.id}"
-    cidr                    = "${var.priv_middleware_sub_b_cidr}"
-    az                      = "${var.region}b"
-    name                    = "${var.priv_middleware_sub_b_name}"
-    map_public_ip_on_launch = "false"
-}
-
-module "public_route_table" {
-  source                   = "../modules/route_table"
-  vpc_id                   = "${module.vpc.id}"
-  gateway_id               = "${module.vpc.internet_gateway_id}"
-  route_table_name         = "${var.public_route_table_name}"
-}
-
-module "private_route_table" {
-  source                   = "../modules/route_table"
-  vpc_id                   = "${module.vpc.id}"
-  gateway_id               = "${module.nat_gateway.nat_gateway_id}"
-  route_table_name         = "${var.private_route_table_name}"
-}
-
-module "prod_pub_sn_a_association" {
-  source           = "../modules/subnet_association"
-  subnet_id        = "${module.pub_sub_a.id}"
-  route_table_id   = "${module.public_route_table.route_table_id}"
-}
-
-module "prod_pub_sn_b_association" {
-  source           = "../modules/subnet_association"
-  subnet_id        = "${module.pub_sub_b.id}"
-  route_table_id   = "${module.public_route_table.route_table_id}"
-}
-
-module "priv_app_sn_a_association" {
-  source           = "../modules/subnet_association"
-  subnet_id        = "${module.priv_app_sub_a.id}"
-  route_table_id   = "${module.private_route_table.route_table_id}"
-}
-
-module "priv_app_sn_b_association" {
-  source           = "../modules/subnet_association"
-  subnet_id        = "${module.priv_app_sub_b.id}"
-  route_table_id   = "${module.private_route_table.route_table_id}"
-}
-
-module "priv_middleware_sn_a_association" {
-  source           = "../modules/subnet_association"
-  subnet_id        = "${module.priv_middleware_sub_a.id}"
-  route_table_id   = "${module.private_route_table.route_table_id}"
-}
-
-module "priv_middleware_sn_b_association" {
-  source           = "../modules/subnet_association"
-  subnet_id        = "${module.priv_middleware_sub_a.id}"
-  route_table_id   = "${module.private_route_table.route_table_id}"
-}
-
 module "bastion_instance" {
     source                      = "../modules/ec2"
     name                        = "${var.bastion_server_name}"
     instance_type               = "${var.bastion_instance_type}"
-    subnet_id                   = "${module.pub_sub_a.id}"
+    subnet_id                   = "${data.terraform_remote_state.timesprime-infra_prod_infra.public_subnet_a_id}"
     number_of_instances         = "${var.number_of_instances}"
     key_name                    = "${var.prod_key_pair_name}"
     associate_public_ip_address = "true"
@@ -156,7 +21,7 @@ module "bastion_instance" {
 module "prod_communication_asg" {
   source                = "../modules/autoscaling_group"
   name                  = "asg_prod_communication"
-  instance_subnets      = ["${module.priv_app_sub_a.id}", "${module.priv_app_sub_b.id}"]
+  instance_subnets      = ["${data.terraform_remote_state.timesprime-infra_prod_infra.private_app_sub_aza_id}", "${data.terraform_remote_state.timesprime-infra_prod_infra.private_app_sub_azb_id}"]
   asg_max               = "${var.comm_asg_max}"
   asg_min               = "${var.comm_asg_min}"
   asg_desired           = "${var.comm_asg_desired}"
@@ -173,7 +38,7 @@ module "prod_communication_asg" {
 module "prod_pwa_asg" {
   source                = "../modules/autoscaling_group"
   name                  = "asg_prod_pwa"
-  instance_subnets      = ["${module.priv_app_sub_a.id}", "${module.priv_app_sub_b.id}"]
+  instance_subnets      = ["${data.terraform_remote_state.timesprime-infra_prod_infra.private_app_sub_aza_id}", "${data.terraform_remote_state.timesprime-infra_prod_infra.private_app_sub_azb_id}"]
   asg_max               = "${var.pwa_asg_max}"
   asg_min               = "${var.pwa_asg_min}"
   asg_desired           = "${var.pwa_asg_desired}"
@@ -190,7 +55,7 @@ module "prod_pwa_asg" {
 module "prod_subscription_asg" {
   source                = "../modules/autoscaling_group"
   name                  = "asg_prod_subscription"
-  instance_subnets      = ["${module.priv_app_sub_a.id}", "${module.priv_app_sub_b.id}"]
+  instance_subnets      = ["${data.terraform_remote_state.timesprime-infra_prod_infra.private_app_sub_aza_id}", "${data.terraform_remote_state.timesprime-infra_prod_infra.private_app_sub_azb_id}"]
   asg_max               = "${var.sub_asg_max}"
   asg_min               = "${var.sub_asg_min}"
   asg_desired           = "${var.sub_asg_desired}"
@@ -207,7 +72,7 @@ module "prod_subscription_asg" {
 module "prod_timesprime_asg" {
   source                = "../modules/autoscaling_group"
   name                  = "asg_prod_timesprime"
-  instance_subnets      = ["${module.priv_app_sub_a.id}", "${module.priv_app_sub_b.id}"]
+  instance_subnets      = ["${data.terraform_remote_state.timesprime-infra_prod_infra.private_app_sub_aza_id}", "${data.terraform_remote_state.timesprime-infra_prod_infra.private_app_sub_azb_id}"]
   asg_max               = "${var.times_asg_max}"
   asg_min               = "${var.times_asg_min}"
   asg_desired           = "${var.times_asg_desired}"
