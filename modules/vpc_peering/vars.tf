@@ -26,10 +26,10 @@ variable "peer_vpc_cidr" {
   description = "CIDR block of the peer VPC"
 }
 
-variable "source_vpc_sg_id" {
-  description = "Security Group ID of the source VPC"
-}
+#variable "source_vpc_sg_id" {
+#  description = "Security Group ID of the source VPC"
+#}
 
-variable "peered_vpc_sg_id" {
-  description = "Security Group ID of the source VPC"
-}
+#variable "peered_vpc_sg_id" {
+#  description = "Security Group ID of the source VPC"
+#}
