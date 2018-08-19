@@ -30,9 +30,11 @@ ansiColor('xterm') {
                 subject: "${currentBuild.fullDisplayName} is ready for deployment",
                 body: "URL: ${env.BUILD_URL}")
             // input message: 'Do you want to apply terraform?', parameters: [$class: (choices: ['Approve', 'Reject'], description: '', name: 'REQUESTED_ACTION')]
-            def userInput = input(
-                    id: 'userInput', message: 'Are you prepared to deploy?', parameters: [
-                    [$class: 'ChoiceParameterDefinition', choices: ['Approve', 'Reject'], description: 'Approve/Disallow deployment', name: 'deploy-check']
+            choice = new ChoiceParameterDefinition('REQUESTED_ACTION', ['Approve', 'Reject'] as String[], 'Description')
+            input message: 'Select one', parameters: [choice]
+            // def userInput = input(
+            //         id: 'userInput', message: 'Are you prepared to deploy?', parameters: [
+            //         [$class: 'ChoiceParameterDefinition', choices: ['Approve', 'Reject'], description: 'Approve/Disallow deployment', name: 'deploy-check']
           ]
         )
         }
