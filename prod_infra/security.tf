@@ -82,14 +82,6 @@ resource "aws_security_group" "kafka_sg" {
   }
 }
 
-resource "aws_security_group_rule" "kafka-allow-bastion" {
-    type            = "ingress"
-    from_port       = 22
-    to_port         = 22
-    protocol        = "tcp"
-    security_group_id = "${module.bastion_security_group.id[0]}"
-}
-
 module "external_alb_sg" {
   source              = "../modules/security_group"
   vpc_id              = "${module.vpc.id}"
@@ -218,7 +210,7 @@ resource "aws_security_group" "prod_subscription_security_group" {
 }
 
 resource "aws_security_group" "prod_timesprime_security_group" {
-  name        = "prod_subscription_security_group"
+  name        = "prod_timesprime_security_group"
   vpc_id      = "${module.vpc.id}"
   
   ingress {
@@ -299,7 +291,7 @@ resource "aws_security_group" "prod_es_security_group" {
 }
 
 resource "aws_security_group" "prod_mongo_security_group" {
-  name        = "prod_es_security_group"
+  name        = "prod_mongo_security_group"
   vpc_id      = "${module.vpc.id}"
   
   ingress {
