@@ -35,7 +35,7 @@ ansiColor('xterm') {
             // def userInput = input(
             //         id: 'userInput', message: 'Are you prepared to deploy?', parameters: [
             //         [$class: 'ChoiceParameterDefinition', choices: ['Approve', 'Reject'], description: 'Approve/Disallow deployment', name: 'deploy-check']
-          ]
+        //   ]
         )
         }
 
