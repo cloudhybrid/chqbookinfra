@@ -23,16 +23,6 @@ variable "route53_zone_name" {
   default     = "internal-timesprime.com"
 }
 
-variable "enable_dns_hostnames" {
-  description = "Whether to enable hostname communication or not"
-  default     = "true"
-}
-
-variable "enable_dns_support" {
-  description = "Whether to enable dns support or not for Route53"
-  default     = "true"
-}
-
 variable "pub_sub_a_cidr" {
   description = "CIDR block for the public subnet of aza"
   default     = "10.0.0.0/20"
@@ -267,4 +257,3 @@ variable "timesprime_instance_type" {
   description = "Instance type of Timesprime component"
   default     = "t2.medium" 
 }
-

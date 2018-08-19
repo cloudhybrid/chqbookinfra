@@ -154,7 +154,7 @@ module "jenkins_key_pair" {
 }
 
 data "template_file" "bootstrap_jenkins_master" {
-  template = "${file("${path.module}/../user_data/jenkins.tpl")}"
+  template = "${file("${path.module}/./user_data/jenkins.tpl")}"
 }
 
 module "jenkins_instance" {
