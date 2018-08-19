@@ -25,7 +25,7 @@
 
 module "bastion_security_group" {
   source              = "../modules/security_group"
-  vpc_id              = "${module.vpc.id}"
+  vpc_id              = "${data.terraform_remote_state.timesprime-infra_prod_infra.vpc_id}"
   name                = "${var.bastion_security_group_name}"
   ingress_with_cidr_blocks = [
     {
@@ -40,7 +40,7 @@ module "bastion_security_group" {
 
 resource "aws_security_group" "kafka_sg" {
   name        = "prod_kafka_sg"
-  vpc_id      = "${module.vpc.id}"
+  vpc_id      = "${data.terraform_remote_state.timesprime-infra_prod_infra.vpc_id}"
   
   ingress {
     from_port       = 9095
@@ -77,6 +77,13 @@ resource "aws_security_group" "kafka_sg" {
     security_groups = ["${module.bastion_security_group.id}"]
   }
   
+  egress {
+    from_port       = 0
+    to_port         = 0
+    protocol        = "-1"
+    cidr_blocks     = ["0.0.0.0/0"]
+  }
+
   tags {
     Name = "prod_kafka_sg"
   }
@@ -84,7 +91,7 @@ resource "aws_security_group" "kafka_sg" {
 
 module "external_alb_sg" {
   source              = "../modules/security_group"
-  vpc_id              = "${module.vpc.id}"
+  vpc_id              = "${data.terraform_remote_state.timesprime-infra_prod_infra.vpc_id}"
   name                = "external_alb_sg"
   ingress_with_cidr_blocks = [
       {
@@ -106,7 +113,7 @@ module "external_alb_sg" {
 
 module "internal_alb_sg" {
   source              = "../modules/security_group"
-  vpc_id              = "${module.vpc.id}"
+  vpc_id              = "${data.terraform_remote_state.timesprime-infra_prod_infra.vpc_id}"
   name                = "internal_alb_sg"
   ingress_with_cidr_blocks = [
       {
@@ -121,7 +128,7 @@ module "internal_alb_sg" {
 
 resource "aws_security_group" "communication_security_group" {
   name        = "communication_security_group"
-  vpc_id      = "${module.vpc.id}"
+  vpc_id      = "${data.terraform_remote_state.timesprime-infra_prod_infra.vpc_id}"
   
   ingress {
     from_port       = 80
@@ -144,6 +151,13 @@ resource "aws_security_group" "communication_security_group" {
     security_groups = ["${module.bastion_security_group.id}"]
   }
   
+  egress {
+    from_port       = 0
+    to_port         = 0
+    protocol        = "-1"
+    cidr_blocks     = ["0.0.0.0/0"]
+  }
+
   tags {
     Name = "communication_security_group"
   }
@@ -151,7 +165,7 @@ resource "aws_security_group" "communication_security_group" {
 
 resource "aws_security_group" "prod_pwa_security_group" {
   name        = "prod_pwa_security_group"
-  vpc_id      = "${module.vpc.id}"
+  vpc_id      = "${data.terraform_remote_state.timesprime-infra_prod_infra.vpc_id}"
   
   ingress {
     from_port       = 80
@@ -174,6 +188,13 @@ resource "aws_security_group" "prod_pwa_security_group" {
     security_groups = ["${module.bastion_security_group.id}"]
   }
   
+  egress {
+    from_port       = 0
+    to_port         = 0
+    protocol        = "-1"
+    cidr_blocks     = ["0.0.0.0/0"]
+  }
+
   tags {
     Name = "prod_pwa_security_group"
   }
@@ -181,7 +202,7 @@ resource "aws_security_group" "prod_pwa_security_group" {
 
 resource "aws_security_group" "prod_subscription_security_group" {
   name        = "prod_subscription_security_group"
-  vpc_id      = "${module.vpc.id}"
+  vpc_id      = "${data.terraform_remote_state.timesprime-infra_prod_infra.vpc_id}"
   
   ingress {
     from_port       = 80
@@ -204,6 +225,13 @@ resource "aws_security_group" "prod_subscription_security_group" {
     security_groups = ["${module.bastion_security_group.id}"]
   }
   
+  egress {
+    from_port       = 0
+    to_port         = 0
+    protocol        = "-1"
+    cidr_blocks     = ["0.0.0.0/0"]
+  }
+
   tags {
     Name = "prod_subscription_security_group"
   }
@@ -211,7 +239,7 @@ resource "aws_security_group" "prod_subscription_security_group" {
 
 resource "aws_security_group" "prod_timesprime_security_group" {
   name        = "prod_timesprime_security_group"
-  vpc_id      = "${module.vpc.id}"
+  vpc_id      = "${data.terraform_remote_state.timesprime-infra_prod_infra.vpc_id}"
   
   ingress {
     from_port       = 80
@@ -234,6 +262,13 @@ resource "aws_security_group" "prod_timesprime_security_group" {
     security_groups = ["${module.bastion_security_group.id}"]
   }
   
+  egress {
+    from_port       = 0
+    to_port         = 0
+    protocol        = "-1"
+    cidr_blocks     = ["0.0.0.0/0"]
+  }
+
   tags {
     Name = "prod_timesprime_security_group"
   }
@@ -241,7 +276,7 @@ resource "aws_security_group" "prod_timesprime_security_group" {
 
 resource "aws_security_group" "prod_es_security_group" {
   name        = "prod_es_security_group"
-  vpc_id      = "${module.vpc.id}"
+  vpc_id      = "${data.terraform_remote_state.timesprime-infra_prod_infra.vpc_id}"
   
   ingress {
     from_port       = 9200
@@ -284,7 +319,14 @@ resource "aws_security_group" "prod_es_security_group" {
     protocol        = "tcp"
     security_groups = ["${module.bastion_security_group.id}"]
   }
-  
+
+  egress {
+    from_port       = 0
+    to_port         = 0
+    protocol        = "-1"
+    cidr_blocks     = ["0.0.0.0/0"]
+  }
+
   tags {
     Name = "prod_es_security_group"
   }
@@ -292,7 +334,7 @@ resource "aws_security_group" "prod_es_security_group" {
 
 resource "aws_security_group" "prod_mongo_security_group" {
   name        = "prod_mongo_security_group"
-  vpc_id      = "${module.vpc.id}"
+  vpc_id      = "${data.terraform_remote_state.timesprime-infra_prod_infra.vpc_id}"
   
   ingress {
     from_port       = 9200
@@ -315,6 +357,13 @@ resource "aws_security_group" "prod_mongo_security_group" {
     security_groups = ["${module.bastion_security_group.id}"]
   }
   
+  egress {
+    from_port       = 0
+    to_port         = 0
+    protocol        = "-1"
+    cidr_blocks     = ["0.0.0.0/0"]
+  }
+
   tags {
     Name = "prod_mongo_security_group"
   }
@@ -322,7 +371,7 @@ resource "aws_security_group" "prod_mongo_security_group" {
 
 resource "aws_security_group" "prod_redis_security_group" {
   name        = "prod_redis_security_group"
-  vpc_id      = "${module.vpc.id}"
+  vpc_id      = "${data.terraform_remote_state.timesprime-infra_prod_infra.vpc_id}"
   
   ingress {
     from_port       = 6379
@@ -344,7 +393,14 @@ resource "aws_security_group" "prod_redis_security_group" {
     protocol        = "tcp"
     security_groups = ["${module.bastion_security_group.id}"]
   }
-  
+
+  egress {
+    from_port       = 0
+    to_port         = 0
+    protocol        = "-1"
+    cidr_blocks     = ["0.0.0.0/0"]
+  }
+
   tags {
     Name = "prod_redis_security_group"
   }
@@ -352,7 +408,7 @@ resource "aws_security_group" "prod_redis_security_group" {
 
 resource "aws_security_group" "prod_communication_db_security_group" {
   name        = "prod_communication_db_security_group"
-  vpc_id      = "${module.vpc.id}"
+  vpc_id      = "${data.terraform_remote_state.timesprime-infra_prod_infra.vpc_id}"
   
   ingress {
     from_port       = 3306
@@ -382,6 +438,13 @@ resource "aws_security_group" "prod_communication_db_security_group" {
     security_groups = ["${module.bastion_security_group.id}"]
   }
   
+  egress {
+    from_port       = 0
+    to_port         = 0
+    protocol        = "-1"
+    cidr_blocks     = ["0.0.0.0/0"]
+  }
+
   tags {
     Name = "prod_communication_db_security_group"
   }
@@ -389,7 +452,7 @@ resource "aws_security_group" "prod_communication_db_security_group" {
 
 resource "aws_security_group" "prod_timesprime_db_security_group" {
   name        = "prod_timesprime_db_security_group"
-  vpc_id      = "${module.vpc.id}"
+  vpc_id      = "${data.terraform_remote_state.timesprime-infra_prod_infra.vpc_id}"
   
   ingress {
     from_port       = 3306
@@ -419,6 +482,13 @@ resource "aws_security_group" "prod_timesprime_db_security_group" {
     security_groups = ["${module.bastion_security_group.id}"]
   }
   
+  egress {
+    from_port       = 0
+    to_port         = 0
+    protocol        = "-1"
+    cidr_blocks     = ["0.0.0.0/0"]
+  }
+
   tags {
     Name = "prod_timesprime_db_security_group"
   }
@@ -426,7 +496,7 @@ resource "aws_security_group" "prod_timesprime_db_security_group" {
 
 resource "aws_security_group" "prod_subscription_db_security_group" {
   name        = "prod_subscription_db_security_group"
-  vpc_id      = "${module.vpc.id}"
+  vpc_id      = "${data.terraform_remote_state.timesprime-infra_prod_infra.vpc_id}"
   
   ingress {
     from_port       = 3306
@@ -456,6 +526,13 @@ resource "aws_security_group" "prod_subscription_db_security_group" {
     security_groups = ["${module.bastion_security_group.id}"]
   }
   
+  egress {
+    from_port       = 0
+    to_port         = 0
+    protocol        = "-1"
+    cidr_blocks     = ["0.0.0.0/0"]
+  }
+
   tags {
     Name = "prod_subscription_db_security_group"
   }

@@ -4,7 +4,7 @@ provider "aws" {
 }
 
 module "vpc" {
-    source               = "../modules/vpc"
+    source               = "../../modules/vpc"
     cidr                 = "${var.vpc_cidr}"
     name                 = "${var.vpc_name}"
     route53_zone_name    = "${var.route53_zone_name}"
@@ -13,7 +13,7 @@ module "vpc" {
 }
 
 module "pub_sub_a" {
-    source                  = "../modules/subnet"
+    source                  = "../../modules/subnet"
     vpc_id                  = "${module.vpc.id}"
     cidr                    = "${var.pub_sub_a_cidr}"
     az                      = "${var.region}a"
@@ -22,7 +22,7 @@ module "pub_sub_a" {
 }
 
 module "pub_sub_b" {
-    source                  = "../modules/subnet"
+    source                  = "../../modules/subnet"
     vpc_id                  = "${module.vpc.id}"
     cidr                    = "${var.pub_sub_b_cidr}"
     az                      = "${var.region}b"
@@ -31,7 +31,7 @@ module "pub_sub_b" {
 }
 
 module "priv_sub_a" {
-    source                  = "../modules/subnet"
+    source                  = "../../modules/subnet"
     vpc_id                  = "${module.vpc.id}"
     cidr                    = "${var.priv_sub_a_cidr}"
     az                      = "${var.region}a"
@@ -40,7 +40,7 @@ module "priv_sub_a" {
 }
 
 module "priv_sub_b" {
-    source                  = "../modules/subnet"
+    source                  = "../../modules/subnet"
     vpc_id                  = "${module.vpc.id}"
     cidr                    = "${var.priv_sub_b_cidr}"
     az                      = "${var.region}b"
@@ -49,44 +49,44 @@ module "priv_sub_b" {
 }
 
 module "nat_gateway" {
-  source                  = "../modules/nat-gateway"
+  source                  = "../../modules/nat-gateway"
   subnet_id               = "${module.pub_sub_b.id}"
 }
 
 module "public_route_table" {
-  source                   = "../modules/route_table"
+  source                   = "../../modules/route_table"
   vpc_id                   = "${module.vpc.id}"
   gateway_id               = "${module.vpc.internet_gateway_id}"
   route_table_name         = "${var.public_route_table_name}"
 }
 
 module "private_route_table" {
-  source                   = "../modules/route_table"
+  source                   = "../../modules/route_table"
   vpc_id                   = "${module.vpc.id}"
   gateway_id               = "${module.nat_gateway.nat_gateway_id}"
   route_table_name         = "${var.private_route_table_name}"
 }
 
 module "pub_sn_a_association" {
-  source           = "../modules/subnet_association"
+  source           = "../../modules/subnet_association"
   subnet_id        = "${module.pub_sub_a.id}"
   route_table_id   = "${module.public_route_table.route_table_id}"
 }
 
 module "pub_sn_b_association" {
-  source           = "../modules/subnet_association"
+  source           = "../../modules/subnet_association"
   subnet_id        = "${module.pub_sub_b.id}"
   route_table_id   = "${module.public_route_table.route_table_id}"
 }
 
 module "priv_sn_a_association" {
-  source           = "../modules/subnet_association"
+  source           = "../../modules/subnet_association"
   subnet_id        = "${module.priv_sub_a.id}"
   route_table_id   = "${module.private_route_table.route_table_id}"
 }
 
 module "priv_sn_b_association" {
-  source           = "../modules/subnet_association"
+  source           = "../../modules/subnet_association"
   subnet_id        = "${module.priv_sub_b.id}"
   route_table_id   = "${module.private_route_table.route_table_id}"
 }

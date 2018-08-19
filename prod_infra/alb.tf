@@ -3,7 +3,7 @@ module "internal-default-tg" {
   target_group_name     = "internal-default-tg"
   backend_port          = "8080"
   backend_protocol      = "HTTP"
-  vpc_id                = "${module.vpc.id}"
+  vpc_id                = "${data.terraform_remote_state.timesprime-infra_prod_infra.vpc_id}"
   health_check_interval = "10"
   health_check_path     = "/"
   health_check_port     = "traffic-port"
@@ -17,7 +17,7 @@ module "communication_tg" {
   target_group_name     = "communication-tg"
   backend_port          = "8080"
   backend_protocol      = "HTTP"
-  vpc_id                = "${module.vpc.id}"
+  vpc_id                = "${data.terraform_remote_state.timesprime-infra_prod_infra.vpc_id}"
   health_check_interval = "10"
   health_check_path     = "/"
   health_check_port     = "traffic-port"
@@ -31,7 +31,7 @@ module "pwa_tg" {
   target_group_name     = "pwa-tg"
   backend_port          = "8080"
   backend_protocol      = "HTTP"
-  vpc_id                = "${module.vpc.id}"
+  vpc_id                = "${data.terraform_remote_state.timesprime-infra_prod_infra.vpc_id}"
   health_check_interval = "10"
   health_check_path     = "/"
   health_check_port     = "traffic-port"
@@ -46,7 +46,7 @@ module "subscription_tg" {
   target_group_name     = "subscription-tg"
   backend_port          = "8080"
   backend_protocol      = "HTTP"
-  vpc_id                = "${module.vpc.id}"
+  vpc_id                = "${data.terraform_remote_state.timesprime-infra_prod_infra.vpc_id}"
   health_check_interval = "10"
   health_check_path     = "/"
   health_check_port     = "traffic-port"
@@ -60,7 +60,7 @@ module "timesprime_tg" {
   target_group_name     = "timesprime-tg"
   backend_port          = "8080"
   backend_protocol      = "HTTP"
-  vpc_id                = "${module.vpc.id}"
+  vpc_id                = "${data.terraform_remote_state.timesprime-infra_prod_infra.vpc_id}"
   health_check_interval = "10"
   health_check_path     = "/"
   health_check_port     = "traffic-port"
@@ -74,7 +74,7 @@ module "external_alb" {
   name                       = "external-alb"
   internal                   = "false"
   security_group_ids         = ["${module.external_alb_sg.id}"]
-  alb_subnets                = ["${module.pub_sub_a.id}", "${module.pub_sub_b.id}"]
+  alb_subnets                = ["${data.terraform_remote_state.timesprime-infra_prod_infra.public_subnet_a_id}", "${data.terraform_remote_state.timesprime-infra_prod_infra.public_subnet_b_id}"]
   enable_deletion_protection = "false"
   env                        = "prod"
   project                    = "timesprime"
@@ -94,7 +94,7 @@ module "internal_alb" {
   name                       = "pvt-internal-alb"
   internal                   = "true"
   security_group_ids         = ["${module.internal_alb_sg.id}"]
-  alb_subnets                = ["${module.priv_app_sub_a.id}", "${module.priv_app_sub_b.id}"]
+  alb_subnets                = ["${data.terraform_remote_state.timesprime-infra_prod_infra.private_app_sub_aza_id}", "${data.terraform_remote_state.timesprime-infra_prod_infra.private_app_sub_azb_id}"]
   enable_deletion_protection = "false"
   env                        = "prod"
   project                    = "timesprime"
