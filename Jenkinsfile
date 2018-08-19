@@ -22,13 +22,13 @@ ansiColor('xterm') {
         stage("Initialize the terraform with module and plugin")
         {
             echo "Initializing the modules and plugin for terraform"
-            sh "cd ${Environment}_infra; terraform init"
+            sh "cd ${params.Environment}_infra; terraform init"
         }
 
         stage("Plan the infra with terraform")
         {
             echo "Planning the infra for ${params.Environment}"
-            sh "cd ${Environment}_infra; terraform plan -var region=${Region} -var profile=${Iam_Profile}"
+            sh "cd ${params.Environment}_infra; terraform plan -var region=${Region} -var profile=${Iam_Profile}"
 
             mail(to: 'abhishek.dubey@opstree.com',
                 subject: "${currentBuild.fullDisplayName} is ready for deployment",
@@ -41,7 +41,7 @@ ansiColor('xterm') {
         {
             stage("Deploying on Management VPC with terraform"){
                 echo "Deploying on management vpc with terraform"
-                sh "cd ${Environment}_infra; terraform apply -auto-approve -var region=${Region} -var profile=${Iam_Profile}"
+                sh "cd ${params.Environment}_infra; terraform apply -auto-approve -var region=${Region} -var profile=${Iam_Profile}"
             }     
         }
 
@@ -49,7 +49,7 @@ ansiColor('xterm') {
         {
             stage("Deploying on Prod VPC with terraform"){
                 echo "Deploying on Prod vpc with terraform"
-                sh "cd ${Environment}_infra; terraform apply -auto-approve -var region=${Region} -var profile=${Iam_Profile}"
+                sh "cd ${params.Environment}_infra; terraform apply -auto-approve -var region=${Region} -var profile=${Iam_Profile}"
             }
         }
     }
