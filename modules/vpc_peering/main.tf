@@ -17,7 +17,7 @@ resource "aws_route" "source_vpc_route_entry" {
 }
 
 module "source_vpc_default_sg_entry" {
-  source            = "git::ssh://git@gitlab.com/abhishek-terraform/security_group_rule"
+  source            = "../security_group_rule"
   cidr_block        = "${var.peer_vpc_cidr}"
   security_group_id = "${var.source_vpc_sg_id}"
   to_port           = "0"
@@ -25,7 +25,7 @@ module "source_vpc_default_sg_entry" {
 }
 
 module "peered_vpc_default_sg_entry" {
-  source            = "git::ssh://git@gitlab.com/abhishek-terraform/security_group_rule"
+  source            = "../security_group_rule"
   cidr_block        = "${var.source_vpc_cidr}"
   security_group_id = "${var.peered_vpc_sg_id}"
   to_port           = "0"
