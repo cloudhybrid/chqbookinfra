@@ -28,7 +28,7 @@ module "es_master_2" {
     security_group_ids          = ["${aws_security_group.prod_es_security_group.id}"]
 }
 
-module "es_master_2" {
+module "es_master_3" {
     source                      = "../modules/ec2"
     name                        = "${var.es3_master_name}"
     instance_type               = "${var.es_instance_type}"
