@@ -8,8 +8,8 @@ ansiColor('xterm') {
         string(defaultValue: 'jenkins_profile', description: 'Name of the instance profile that terraform will use', name: 'Iam_Profile')])
 
     ])
+
     def config = [:]
-    
     node {
         stage("Checkout the latest code of Repo")
         {
