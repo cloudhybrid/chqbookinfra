@@ -257,3 +257,110 @@ variable "timesprime_instance_type" {
   description = "Instance type of Timesprime component"
   default     = "t2.medium" 
 }
+
+variable "es1_master_name" {
+  description = "Name of the ES Master 1"
+  default     = "es_master_1"
+}
+
+variable "es_instance_type" {
+  description = "Intsance type of the elasticsearch"
+  default     = "t2.medium"
+}
+
+variable "es_ami_id" {
+  description = "AMI ID of the elasticsearch"
+  default     = "ami-b70554c8"
+}
+
+variable "es_root_volume_type" {
+  description = "Volume type of the elasticsearch"
+  default     = "gp2"
+}
+
+variable "es_root_volume_size" {
+  description = "Volume size of the elasticsearch instance"
+  default     = "40"
+}
+
+variable "es2_master_name" {
+  description = "Name of the ES Master 2"
+  default     = "es_master_2"
+}
+
+variable "es3_master_name" {
+  description = "Name of the ES Master 3"
+  default     = "es_master_3"
+}
+
+variable "mongo_master_name" {
+  description = "Name of the Mongo Master"
+  default     = "mongo_master"
+}
+
+variable "mongo_instance_type" {
+  description = "Intsance type of the Mongo"
+  default     = "t2.medium"
+}
+
+variable "mongo_ami_id" {
+  description = "AMI ID of the Mongo"
+  default     = "ami-b70554c8"
+}
+
+variable "mongo_root_volume_type" {
+  description = "Volume type of the Mongo"
+  default     = "gp2"
+}
+
+variable "mongo_root_volume_size" {
+  description = "Volume size of the Mongo instance"
+  default     = "40"
+}
+
+variable "mongo_arbiter_name" {
+  description = "Name of the Mongo Arbiter"
+  default     = "mongo_arbiter"
+}
+
+variable "mongo_slave_name" {
+  description = "Name of the Mongo Slave"
+  default     = "mongo_slave"
+}
+
+variable "kafka_server_1_name" {
+  description = "Name of the Kafka Server 1"
+  default     = "kafka_server_1"
+}
+
+variable "kafka_server_instance_type" {
+  description = "Intsance type of the Kafka Server"
+  default     = "t2.medium"
+}
+
+variable "kafka_server_ami_id" {
+  description = "AMI ID of the Kafka Server"
+  default     = "ami-b70554c8"
+}
+
+variable "kafka_server_root_volume_type" {
+  description = "Volume type of the Kafka"
+  default     = "gp2"
+}
+
+variable "kafka_server_root_volume_size" {
+  description = "Volume size of the Kafka instance"
+  default     = "40"
+}
+
+variable "kafka_server_2_name" {
+  description = "Name of the Kafka Server 2"
+  default     = "kafka_server_2"
+}
+
+
+variable "kafka_server_3_name" {
+  description = "Name of the Kafka Server 2"
+  default     = "kafka_server_3"
+}
+

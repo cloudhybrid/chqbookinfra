@@ -168,3 +168,47 @@ output "subscription_db_security_group_id" {
   value = "${aws_security_group.prod_subscription_db_security_group.id}"
 }
 
+output "es_server_1_private_ip" {
+  description = "Ouput private IP of the created es server 1"
+  value = "${module.es_master_1.private_ip}"
+}
+
+output "es_server_2_private_ip" {
+  description = "Ouput private IP of the created es server 2"
+  value = "${module.es_master_2.private_ip}"
+}
+
+output "es_server_3_private_ip" {
+  description = "Ouput private IP of the created es server 3"
+  value = "${module.es_master_3.private_ip}"
+}
+
+output "mongo_master_private_ip" {
+  description = "Ouput private IP of the created Mongo Master"
+  value = "${module.mongo_master.private_ip}"
+}
+
+output "mongo_arbiter_private_ip" {
+  description = "Ouput private IP of the created Mongo Arbiter"
+  value = "${module.mongo_arbiter.private_ip}"
+}
+
+output "mongo_slave_private_ip" {
+  description = "Ouput private IP of the created Mongo Slave"
+  value = "${module.mongo_slave.private_ip}"
+}
+
+output "kafka_server_1_private_ip" {
+  description = "Ouput private IP of the created Kafka Server 1"
+  value = "${module.kafka_server_1.private_ip}"
+}
+
+output "kafka_server_2_private_ip" {
+  description = "Ouput private IP of the created Kafka Server 2"
+  value = "${module.kafka_server_2.private_ip}"
+}
+
+output "kafka_server_3_private_ip" {
+  description = "Ouput private IP of the created Kafka Server 3"
+  value = "${module.kafka_server_3.private_ip}"
+}
